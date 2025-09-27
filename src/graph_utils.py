@@ -50,7 +50,7 @@ def export_graphviz(nx_graph: nx.DiGraph, path: str):
         color = data.get('color', 'black')
         action = data.get('action', '')
         dot.edge(src, dst, color=color, label=action)
-    graph_path = Path(path) / "lineage_graph.png"
+    graph_path = Path(path) / "lineage_graph"
     dot.render(graph_path , cleanup=True)
 
 
