@@ -21,14 +21,10 @@ This SQL Reverse Engineering Toolkit is a command-line application designed to a
 - **graphviz:** For rendering the dependency graph.
 - **python-dotenv:** For managing environment variables.
 
-## For Recruiters (Best Practices)
-
-This project demonstrates a commitment to software engineering best practices, including:
+Properties:
 
 - **Modularity and Separation of Concerns:** The application is divided into distinct modules (`extractor`, `parser`, `graph_utils`, `materializer`), each with a specific responsibility. This makes the code easier to understand, maintain, and extend.
-- **Clear and Well-Documented Code:** The code is written with clear, descriptive names and includes docstrings to explain the purpose of each module and function.
 - **Configuration Management:** Database credentials and other settings are managed through environment variables (`.env` file), separating configuration from code and enhancing security.
-- **Error Handling:** The code includes error handling to gracefully manage potential issues, such as database connection failures.
 - **Command-Line Interface:** The use of `argparse` provides a user-friendly CLI, making the tool accessible and scriptable.
 
 ## Installation and Usage
