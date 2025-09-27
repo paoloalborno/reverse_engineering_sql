@@ -1,0 +1,86 @@
+{
+  "procedures": {
+    "sp_generate_fact_bookings": {
+      "reads": [
+        "dim_passenger",
+        "dim_segment"
+      ],
+      "writes": [
+        "fact_bookings"
+      ]
+    },
+    "sp_generate_fact_occupancy": {
+      "reads": [
+        "dim_segment",
+        "dim_ship",
+        "dim_voyage",
+        "fact_bookings"
+      ],
+      "writes": [
+        "fact_occupancy"
+      ]
+    },
+    "sp_generate_fact_revenue": {
+      "reads": [
+        "dim_segment",
+        "dim_ship",
+        "dim_voyage",
+        "fact_bookings"
+      ],
+      "writes": [
+        "fact_revenue"
+      ]
+    }
+  },
+  "tables": {
+    "dim_passenger": {
+      "read_by": [
+        "sp_generate_fact_bookings"
+      ],
+      "written_by": []
+    },
+    "dim_segment": {
+      "read_by": [
+        "sp_generate_fact_bookings",
+        "sp_generate_fact_occupancy",
+        "sp_generate_fact_revenue"
+      ],
+      "written_by": []
+    },
+    "fact_bookings": {
+      "read_by": [
+        "sp_generate_fact_occupancy",
+        "sp_generate_fact_revenue"
+      ],
+      "written_by": [
+        "sp_generate_fact_bookings"
+      ]
+    },
+    "dim_ship": {
+      "read_by": [
+        "sp_generate_fact_occupancy",
+        "sp_generate_fact_revenue"
+      ],
+      "written_by": []
+    },
+    "dim_voyage": {
+      "read_by": [
+        "sp_generate_fact_occupancy",
+        "sp_generate_fact_revenue"
+      ],
+      "written_by": []
+    },
+    "fact_occupancy": {
+      "read_by": [],
+      "written_by": [
+        "sp_generate_fact_occupancy"
+      ]
+    },
+    "fact_revenue": {
+      "read_by": [],
+      "written_by": [
+        "sp_generate_fact_revenue"
+      ]
+    }
+  }
+}
