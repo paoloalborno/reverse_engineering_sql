@@ -1,0 +1,70 @@
+{
+  "timestamp": "2025-09-27T13:32:04.284272",
+  "tables": [
+    {
+      "table": "dim_cruise_companies",
+      "ddl_file": "table__dim_cruise_companies.sql"
+    },
+    {
+      "table": "dim_passenger",
+      "ddl_file": "table__dim_passenger.sql"
+    },
+    {
+      "table": "dim_port",
+      "ddl_file": "table__dim_port.sql"
+    },
+    {
+      "table": "dim_segment",
+      "ddl_file": "table__dim_segment.sql"
+    },
+    {
+      "table": "dim_ship",
+      "ddl_file": "table__dim_ship.sql"
+    },
+    {
+      "table": "dim_voyage",
+      "ddl_file": "table__dim_voyage.sql"
+    },
+    {
+      "table": "fact_bookings",
+      "ddl_file": "table__fact_bookings.sql"
+    },
+    {
+      "table": "fact_occupancy",
+      "ddl_file": "table__fact_occupancy.sql"
+    },
+    {
+      "table": "fact_revenue",
+      "ddl_file": "table__fact_revenue.sql"
+    },
+    {
+      "table": "vw_bookings_summary",
+      "ddl_file": "table__vw_bookings_summary.sql"
+    },
+    {
+      "table": "vw_occupancy_summary",
+      "ddl_file": "table__vw_occupancy_summary.sql"
+    },
+    {
+      "table": "vw_revenue_summary",
+      "ddl_file": "table__vw_revenue_summary.sql"
+    }
+  ],
+  "routines": [
+    {
+      "name": "sp_generate_fact_bookings",
+      "type": "PROCEDURE",
+      "file": "sp_generate_fact_bookings.sql"
+    },
+    {
+      "name": "sp_generate_fact_occupancy",
+      "type": "PROCEDURE",
+      "file": "sp_generate_fact_occupancy.sql"
+    },
+    {
+      "name": "sp_generate_fact_revenue",
+      "type": "PROCEDURE",
+      "file": "sp_generate_fact_revenue.sql"
+    }
+  ]
+}
