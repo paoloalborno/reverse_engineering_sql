@@ -1,9 +1,7 @@
-import json
+from pathlib import Path
+
 import graphviz
 import networkx as nx
-
-from src.cli import GRAPH_DIR
-
 
 def build_graph(lineage: dict):
     nx_graph = nx.DiGraph()
@@ -52,13 +50,11 @@ def export_graphviz(nx_graph: nx.DiGraph, path: str):
         color = data.get('color', 'black')
         action = data.get('action', '')
         dot.edge(src, dst, color=color, label=action)
+    graph_path = Path(path) / "lineage_graph.png"
+    dot.render(graph_path , cleanup=True)
 
-    dot.render(path, cleanup=True)
 
 
-with open(GRAPH_DIR+"lineage_graph.png", "r") as file:
-    graph = build_graph(json.loads(file.read()))
-    export_graphviz(graph, GRAPH_DIR+"/lineage_graph.png")
 
 
 

@@ -13,6 +13,7 @@ import json
 import logging
 from parser import analyze_procedures
 from src.extractor import dump_schema_and_routines, get_db_cfg
+from src.graph_utils import build_graph, export_graphviz
 from src.materializer import materialize_all
 from dotenv import load_dotenv
 
@@ -103,7 +104,12 @@ def run_parse(config):
 
     result = analyze_procedures(procedures)
     config.save_parsed_lineage(result)
-    logging.info(f"Parsing completed. Files saved in {config.output_parsed_dir}")
+    lineage_path = Path(PARSED_SQL_DIR) / "parsed_lineage.json"
+
+    with open(lineage_path, "r") as file:
+        graph = build_graph(json.loads(file.read()))
+        export_graphviz(graph, GRAPH_DIR)
+    logging.info(f"Parsing completed")
 
 
 def run_materialize():
