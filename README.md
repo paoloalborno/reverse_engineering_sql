@@ -101,3 +101,112 @@ After running the `parse` or `all` command, the tool will generate a dependency 
 Below is an example of the generated graph:
 
 ![Lineage Graph](output_examples/lineage_graph.png)
+
+### JSON Output Example
+
+The `parse` command also generates a `parsed_lineage.json` file, which contains a detailed breakdown of the relationships between procedures and tables.
+
+```json
+{
+  "procedures": {
+    "sp_generate_fact_bookings": {
+      "reads": [
+        "dim_passenger",
+        "dim_segment"
+      ],
+      "writes": [
+        "fact_bookings"
+      ]
+    },
+    "sp_generate_fact_occupancy": {
+      "reads": [
+        "dim_segment",
+        "dim_ship",
+        "dim_voyage",
+        "fact_bookings"
+      ],
+      "writes": [
+        "fact_occupancy"
+      ]
+    },
+    "sp_generate_fact_revenue": {
+      "reads": [
+        "dim_segment",
+        "dim_ship",
+        "dim_voyage",
+        "fact_bookings"
+      ],
+      "writes": [
+        "fact_revenue"
+      ]
+    }
+  },
+  "tables": {
+    "dim_passenger": {
+      "read_by": [
+        "sp_generate_fact_bookings"
+      ],
+      "written_by": []
+    },
+    "dim_segment": {
+      "read_by": [
+        "sp_generate_fact_bookings",
+        "sp_generate_fact_occupancy",
+        "sp_generate_fact_revenue"
+      ],
+      "written_by": []
+    },
+    "fact_bookings": {
+      "read_by": [
+        "sp_generate_fact_occupancy",
+        "sp_generate_fact_revenue"
+      ],
+      "written_by": [
+        "sp_generate_fact_bookings"
+      ]
+    },
+    "dim_ship": {
+      "read_by": [
+        "sp_generate_fact_occupancy",
+        "sp_generate_fact_revenue"
+      ],
+      "written_by": []
+    },
+    "dim_voyage": {
+      "read_by": [
+        "sp_generate_fact_occupancy",
+        "sp_generate_fact_revenue"
+      ],
+      "written_by": []
+    },
+    "fact_occupancy": {
+      "read_by": [],
+      "written_by": [
+        "sp_generate_fact_occupancy"
+      ]
+    },
+    "fact_revenue": {
+      "read_by": [],
+      "written_by": [
+        "sp_generate_fact_revenue"
+      ]
+    }
+  }
+}
+```
+
+### SQL Procedure Example
+
+Here is an example of a stored procedure that the tool can parse:
+
+```sql
+CREATE DEFINER=`windows_user`@`%` PROCEDURE `sp_generate_fact_bookings`()
+BEGIN
+  TRUNCATE TABLE fact_bookings;
+  INSERT INTO fact_bookings (passenger_id, segment_id, booking_date, price)
+  SELECT p.passenger_id, s.segment_id, CURDATE(), 100 + FLOOR(RAND()*900)
+  FROM dim_passenger p
+  JOIN dim_segment s ON 1=1
+  WHERE RAND() < 0.15;
+END
+```
